@@ -1,0 +1,10 @@
+# Datos grandes que se descargan aparte (ver el README de cada proyecto)
+*.csv
+
+# MATLAB
+*.asv
+*.mex*
+slprj/
+
+# Sistema
+.DS_Store

@@ -1,45 +1,45 @@
-# Ventanas de Parzen: diagnóstico de diabetes
+# Parzen windows: diabetes diagnosis
 
-Clasificador bayesiano no paramétrico para el conjunto de datos *Pima Indians
-Diabetes* (768 pacientes, 8 variables clínicas; 500 sin diabetes y 268 con diabetes).
+Non-parametric Bayes classifier for the *Pima Indians Diabetes* dataset (768
+patients, 8 clinical variables; 500 without diabetes and 268 with diabetes).
 
-## Cómo funciona
+## How it works
 
-1. **Separación de datos:** se reserva un 15 % de pacientes solo para test. Todo
-   lo demás (Fisher y la elección de σ) se ajusta con el 85 % restante.
-2. **Reducción a 2 características** con el discriminante lineal de Fisher
+1. **Data split:** 15 % of the patients are held out for testing only.
+   Everything else (Fisher and the choice of σ) is fitted on the remaining 85 %.
+2. **Reduction to 2 features** with Fisher's linear discriminant
    ([`funciones/fisher_lda.m`](../funciones/fisher_lda.m)).
-3. **Estimación de densidad** de cada clase con ventanas de Parzen
-   ([`funciones/densidad_parzen.m`](../funciones/densidad_parzen.m)): la densidad en
-   un punto es la media de gaussianas de anchura σ centradas en cada paciente.
-4. **Clasificación bayesiana:** cada paciente va a la clase con mayor
-   P(clase) · p(x | clase).
-5. **Elección de σ** por validación cruzada de 10 pliegues, probando valores de
-   0,1 a 20.
+3. **Density estimation** for each class with Parzen windows
+   ([`funciones/densidad_parzen.m`](../funciones/densidad_parzen.m)): the density
+   at a point is the mean of Gaussians of width σ centred on each patient.
+4. **Bayes classification:** each patient is assigned to the class with the
+   highest P(class) · p(x | class).
+5. **Choice of σ** by 10-fold cross-validation, trying values from 0.1 to 20.
 
-## Resultados
+## Results
 
 | | Error |
 |---|---|
-| Validación cruzada (σ = 0,7) | 21,4 % |
-| **Test (115 pacientes no vistos)** | **25,2 %** |
+| Cross-validation (σ = 0.7) | 21.4 % |
+| **Test (115 unseen patients)** | **25.2 %** |
 
-Como referencia, en el benchmark StatLog los mejores métodos sobre estos datos
-rondan el 22–25 % de error.
+For reference, the best methods in the StatLog benchmark reach around 22–25 %
+error on this data.
 
-![Error en función de sigma](figuras/error_vs_sigma.png)
+![Error as a function of sigma](figuras/error_vs_sigma.png)
 
-Con σ pequeño la densidad es un conjunto de picos sobre cada paciente y se
-sobreajusta; con σ grande se suaviza tanto que a partir de σ ≈ 4 el clasificador
-acaba eligiendo siempre la clase mayoritaria (sin diabetes) y el error se estanca en torno al 33,5 %.
+With a small σ the density becomes a set of spikes on each patient and the model
+overfits; with a large σ it is smoothed so much that from σ ≈ 4 on the classifier
+always picks the majority class (no diabetes) and the error stalls at about
+33.5 %.
 
-![Densidades estimadas con Parzen](figuras/densidades_parzen.png)
+![Densities estimated with Parzen windows](figuras/densidades_parzen.png)
 
-Las dos densidades se solapan bastante: con solo 2 características las clases no
-se separan del todo. Además, con 2 clases Fisher solo tiene una dirección útil
-(un único autovalor no nulo), así que la segunda característica apenas aporta.
+The two densities overlap considerably: with only 2 features the classes cannot
+be fully separated. Moreover, with 2 classes Fisher has only one useful
+direction (a single non-zero eigenvalue), so the second feature adds little.
 
-## Cómo ejecutarlo
+## How to run
 
-Ejecutar `parzen_diabetes.m` en MATLAB. Los datos están incluidos en
-`datos/diabetes.mat` (del benchmark StatLog). Tarda unos segundos.
+Run `parzen_diabetes.m` in MATLAB. The data is included in `datos/diabetes.mat`
+(from the StatLog benchmark). It takes a few seconds.

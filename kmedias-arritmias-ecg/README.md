@@ -1,50 +1,53 @@
-# k-medias para clasificar arritmias cardiacas
+# k-means for cardiac arrhythmia classification
 
-Clasificación de latidos de electrocardiograma en 5 clases (normal y 4 tipos de
-arritmia) con **k-medias implementado a mano**, comparando la distancia
-**euclídea** con la de **Mahalanobis**.
+Classification of electrocardiogram heartbeats into 5 classes (normal and 4
+types of arrhythmia) with **k-means implemented from scratch**, comparing the
+**Euclidean** and **Mahalanobis** distances.
 
-## Cómo funciona
+## How it works
 
-1. Se agrupan los latidos de entrenamiento en *K* grupos con k-medias
-   ([`funciones/kmedias.m`](../funciones/kmedias.m)): asignar cada latido al centroide
-   más cercano y mover cada centroide a la media de su grupo, hasta que nada cambie.
-   Con Mahalanobis, cada grupo tiene además su propia matriz de covarianza.
-2. Cada centroide se etiqueta con la clase más frecuente entre sus latidos.
-3. Cada latido de test recibe la etiqueta del centroide más cercano.
+1. The training heartbeats are grouped into *K* clusters with k-means
+   ([`funciones/kmedias.m`](../funciones/kmedias.m)): each heartbeat is assigned
+   to its nearest centroid and each centroid is moved to the mean of its
+   cluster, until nothing changes. With Mahalanobis, each cluster also has its
+   own covariance matrix.
+2. Each centroid is labelled with the most frequent class among its heartbeats.
+3. Each test heartbeat gets the label of its nearest centroid.
 
-Para reducir el tiempo de cálculo se usa el 50 % de los latidos (43.777 de
-entrenamiento y 10.946 de test) y las 93 primeras muestras de cada uno.
+To reduce computation time, 50 % of the heartbeats are used (43,777 for training
+and 10,946 for test), with the first 93 samples of each one.
 
-## Resultados
+## Results
 
-| | Mejor acierto en test | K |
+| | Best test accuracy | K |
 |---|---|---|
-| Predecir siempre "normal" | 83,1 % | — |
-| k-medias, distancia euclídea | 84,3 % | 10 |
-| k-medias, distancia de Mahalanobis | **89,1 %** | 8 |
+| Always predicting "normal" | 83.1 % | — |
+| k-means, Euclidean distance | 84.3 % | 10 |
+| k-means, Mahalanobis distance | **89.1 %** | 8 |
 
-![Acierto en función de K](figuras/acierto_vs_K.png)
+![Accuracy as a function of K](figuras/acierto_vs_K.png)
 
-**Por qué la euclídea no mejora:** el 82,5 % de los latidos son normales y las
-arritmias se solapan con ellos. Con distancia euclídea los grupos son esféricos,
-casi todos acaban dominados por la clase normal y el clasificador predice
-"normal" para casi todo; su acierto coincide con el de esa estrategia trivial.
+**Why Euclidean does not improve:** 82.5 % of the heartbeats are normal and the
+arrhythmias overlap with them. With the Euclidean distance the clusters are
+spherical, almost all of them end up dominated by the normal class, and the
+classifier predicts "normal" for almost everything: its accuracy matches that
+trivial strategy.
 
-![Distribución de clases](figuras/distribucion_clases.png)
+![Class distribution](figuras/distribucion_clases.png)
 
-**Por qué Mahalanobis sí:** cada grupo aprende su covarianza y puede adoptar
-formas elípticas. A partir de K = 2 unos grupos cubren la nube de latidos
-normales y otros se especializan en las arritmias, y el acierto sube unos 6
-puntos por encima de la referencia.
+**Why Mahalanobis does:** each cluster learns its own covariance and can take
+elliptical shapes. From K = 2 on, some clusters cover the cloud of normal
+heartbeats while others specialise in the arrhythmias, and accuracy rises about
+6 points above the baseline.
 
-Los resultados varían ligeramente entre ejecuciones si se cambia la semilla
-(`rng`), porque cambian el subconjunto de latidos y los centroides iniciales.
+Results vary slightly between runs if the seed (`rng`) is changed, because both
+the subset of heartbeats and the initial centroids change.
 
-## Cómo ejecutarlo
+## How to run
 
-1. Descargar `mitbih_train.csv` y `mitbih_test.csv` del
+1. Download `mitbih_train.csv` and `mitbih_test.csv` from the
    [ECG Heartbeat Categorization Dataset](https://www.kaggle.com/datasets/shayanfazeli/heartbeat)
-   (derivado de la base MIT-BIH Arrhythmia de PhysioNet) y dejarlos en esta carpeta.
-   No se incluyen en el repositorio porque ocupan más de 500 MB.
-2. Ejecutar `kmedias_ecg.m` en MATLAB. Tarda alrededor de un minuto.
+   (derived from the PhysioNet MIT-BIH Arrhythmia database) and place them in
+   this folder. They are not included in the repository because they take more
+   than 500 MB.
+2. Run `kmedias_ecg.m` in MATLAB. It takes about a minute.

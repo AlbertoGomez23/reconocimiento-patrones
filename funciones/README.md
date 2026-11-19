@@ -1,18 +1,18 @@
-# Funciones comunes
+# Shared functions
 
-Funciones que comparten los proyectos. Cada script las añade al *path* con
-`addpath(fullfile(carpeta, '..', 'funciones'))`, así que basta con ejecutar el
-script desde su carpeta.
+Functions shared by the projects. Each script adds them to the path with
+`addpath(fullfile(carpeta, '..', 'funciones'))`, so it is enough to run the
+script from its own folder.
 
-| Función | Qué hace |
+| Function | What it does |
 |---|---|
-| `barajar` | Desordena los patrones (y sus etiquetas) aleatoriamente |
-| `dist_euclidea` | Distancia euclídea de un conjunto de patrones a un punto |
-| `dist_mahalanobis` | Distancia de Mahalanobis (al cuadrado) usando Cholesky |
-| `kmedias` | k-medias con distancia euclídea o de Mahalanobis |
-| `particion_cv` | Pliegue *i* de una validación cruzada de *K* pliegues |
-| `fisher_lda` | Discriminante lineal de Fisher multiclase |
-| `densidad_parzen` | Estimación de densidad con ventanas de Parzen (núcleo gaussiano) |
+| `barajar` | Randomly shuffles the patterns (and their labels) |
+| `dist_euclidea` | Euclidean distance from a set of patterns to a point |
+| `dist_mahalanobis` | (Squared) Mahalanobis distance using a Cholesky factorization |
+| `kmedias` | k-means with Euclidean or Mahalanobis distance |
+| `particion_cv` | Fold *i* of a *K*-fold cross-validation |
+| `fisher_lda` | Multiclass Fisher linear discriminant |
+| `densidad_parzen` | Parzen window density estimation (Gaussian kernel) |
 
-Convención: los patrones van **por columnas** (`d x n`) y las etiquetas en un
-vector fila (`1 x n`).
+Convention: patterns are stored **as columns** (`d x n`) and labels as a row
+vector (`1 x n`).

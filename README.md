@@ -1,26 +1,28 @@
-# Reconocimiento de patrones en MATLAB
+# Pattern recognition in MATLAB
 
-Problemas de clasificación y estimación de densidad resueltos con algoritmos de
-reconocimiento de patrones implementados desde cero en MATLAB, sin usar las
-funciones equivalentes de las toolboxes, y aplicados a datos médicos reales.
+Classification and density estimation problems solved with pattern recognition
+algorithms implemented from scratch in MATLAB, without using the equivalent
+toolbox functions, and applied to real medical data.
 
-| Proyecto | Técnicas | Datos |
+| Project | Techniques | Data |
 |---|---|---|
-| [k-medias para clasificar arritmias](kmedias-arritmias-ecg/) | k-medias (euclídea y Mahalanobis), clasificación por centroides | Latidos de ECG (MIT-BIH) |
-| [Ventanas de Parzen](parzen-diabetes/) | Discriminante de Fisher, estimación de densidad de Parzen, clasificador bayesiano, validación cruzada | Diabetes (Pima Indians) |
+| [k-means for arrhythmia classification](kmedias-arritmias-ecg/) | k-means (Euclidean and Mahalanobis), nearest-centroid classification | ECG heartbeats (MIT-BIH) |
+| [Parzen windows](parzen-diabetes/) | Fisher discriminant, Parzen density estimation, Bayes classifier, cross-validation | Diabetes (Pima Indians) |
 
-## Estructura
+## Structure
 
 ```
-funciones/                funciones comunes (k-medias, distancias, Fisher, Parzen...)
-kmedias-arritmias-ecg/    una carpeta por proyecto, con su script, README y figuras
+funciones/                shared functions (k-means, distances, Fisher, Parzen...)
+kmedias-arritmias-ecg/    one folder per project, with its script, README and figures
 parzen-diabetes/
 ```
 
-## Cómo ejecutar
+The code (identifiers and comments) is written in Spanish.
 
-1. Abrir MATLAB (probado en R2025a).
-2. Entrar en la carpeta del proyecto y ejecutar su script. Cada script
-   añade `funciones/` al *path* por su cuenta.
+## How to run
 
-Algunos proyectos necesitan descargar los datos aparte; se indica en su README.
+1. Open MATLAB (tested on R2025a).
+2. Go to the project folder and run its script. Each script adds `funciones/`
+   to the path by itself.
+
+Some projects need the data to be downloaded separately; see their README.
